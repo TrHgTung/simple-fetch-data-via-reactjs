@@ -18,7 +18,6 @@ export class Mail extends Component {
         const res = await fetch(`${SERVER_API}${API_ENDPOINT}`, {
             method: "GET",
             headers: {
-                // Authorization: `Bearer: ${token}`,
                 "Content-Type": "application/json",
             },
         })
@@ -40,12 +39,37 @@ export class Mail extends Component {
     render() {
         // this.getMailData()
         const {mail} = this.state
-        console.log(mail);
+        // console.log(mail);
         return (
             <div>
-                {mail.map((mail) => (
-                    <p key={mail.id}>{mail.email}</p>
-                ))}
+                <div class="table-responsive small">
+                    <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Địa chỉ e-mail</th>
+                            <th scope="col">Tên người nhận</th>
+                            <th scope="col">Tiêu đề e-mail</th>
+                            <th scope="col">Nội dung e-mail</th>
+                            <th scope="col">Tên tệp đính kèm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            {mail.map((mail) => (
+                                <tr>
+                                    <td className='text-danger'>{mail.id}</td>
+                                    <td>{mail.email}</td>
+                                    <td>{mail.receiver}</td>
+                                    <td>{mail.title}</td>
+                                    <td>{mail.content}</td>
+                                    <td>{mail.fileName}</td>
+                                </tr>
+                            ))}
+                    </tbody>
+                    </table>
+                </div>
+                
             </div>
         )
     }
