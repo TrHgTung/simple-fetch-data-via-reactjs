@@ -1,0 +1,5 @@
+{
+    "SERVER_API": "http://localhost:5225",
+    "API_ENDPOINT": "/api/MailAPI"
+
+}
