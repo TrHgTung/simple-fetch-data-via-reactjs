@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
+import config from "../config/config.json"
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+const {SERVER_API} = config
+const {API_ENDPOINT} = config
 
 export class AddData extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       form:{
         title: "",
         content: "",
         email: "",
+        receiver: "",
         filename: "",
       }
     }
@@ -15,16 +21,32 @@ export class AddData extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const {title, content, email, filename} = this.state.form
-    console.log(title, content, email, filename)
+    const {title, content, email, receiver, filename} = this.state.form
+   
+    this.postMail({title, content, email, receiver, filename})
   };
 
   handleChange = (e) => {
     const data = {...this.state.form};
     data[e.target.name] = e.target.value
     this.setState({
-      form:data,
+      form : data,
     })
+  }
+
+  postMail = async (data) => {
+    const res = await fetch(`${SERVER_API}${API_ENDPOINT}`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+  })
+
+  
+  if(res.ok){
+      console.log('Added Successfully')
+  }
   }
 
   render() {
@@ -44,8 +66,12 @@ export class AddData extends Component {
             <input type='email' id='email' name='email' placeholder='Type something...' onChange={this.handleChange} required></input>
           </div>
           <div className='mb-4'>
-            <label for="filename">Chọn tệp đính kèm: </label>
-            <input type='file' id='filename' name='filename' className='btn btn-outline-secondary' onChange={this.handleChange}></input>
+            <label for="receiver">Người nhận: </label>
+            <input type='text' id='receiver' name='receiver' placeholder='A name' onChange={this.handleChange} required></input>
+          </div>
+          <div className='mb-4'>
+            <label for="filename">Test tên file</label>
+            <input type='text' id='filename' name='filename' className='btn btn-outline-secondary' onChange={this.handleChange}></input>
           </div>
          <button type='submit' className='btn btn-primary'>Gửi đi</button>
         </form>
