@@ -23,6 +23,7 @@ export class Mail extends Component {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "accept": "/",
             },
         })
 
@@ -52,6 +53,35 @@ export class Mail extends Component {
         this.setState({
             showAll:true,
         })
+    }
+
+    handleAddSuccess = (status) =>{
+        if(status){
+            this.getMailData()
+        }
+    }
+
+    handleDelete = (id) => {
+        if(window.confirm('Bạn có muốn xóa mục này khỏi lịch sử e-mail?')){
+            this.deleteItemMailHistory(id)
+            alert('Đã xóa thành công')
+        }
+    }
+
+    deleteItemMailHistory = async (id) => {
+        const fetchUrl = `${SERVER_API}${API_ENDPOINT}/${id}`
+        const res = await fetch(fetchUrl, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "accept": "/",
+            },
+        })
+
+        console.log(fetchUrl)
+        if(res.ok){
+            this.getMailData()
+        }
     }
 
     render() {
@@ -95,6 +125,7 @@ export class Mail extends Component {
                                                 <th scope="col">Tiêu đề e-mail</th>
                                                 <th scope="col">Nội dung e-mail</th>
                                                 <th scope="col">Tên tệp đính kèm</th>
+                                                <th scope="col">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -109,6 +140,12 @@ export class Mail extends Component {
                                                         <td className='mail-item'>{mail.title}</td>
                                                         <td className='mail-item'>{mail.content}</td>
                                                         <td className='mail-item'>{mail.fileName}</td>
+                                                        <td className='mail-item'>
+                                                            <button className='btn btn-sm btn-danger' type='button' onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                this.handleDelete(mail.id)
+                                                            }}>Xóa</button>
+                                                        </td>
                                                     </tr>
                                                 ))
                                             }
@@ -124,7 +161,7 @@ export class Mail extends Component {
                         <div className='mt-2 mb-4'>
                             <h4><strong>Gửi e-mail nhanh</strong></h4>
                         </div>
-                        <AddData />
+                        <AddData onSuccess={this.handleAddSuccess} />
                     </div>
              </>
         );

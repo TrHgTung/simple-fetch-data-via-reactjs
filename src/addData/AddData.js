@@ -41,39 +41,51 @@ export class AddData extends Component {
           "Content-Type": "application/json",
       },
       body: JSON.stringify(data)
-  })
+    })
 
-  
-  if(res.ok){
-      console.log('Added Successfully')
-  }
+    if(res.ok){
+        //console.log('Added Successfully')
+        alert('Đã gửi e-mail thành công')
+        this.setState({
+          form : {
+            title: "", 
+            content: "", 
+            email: "", 
+            receiver: "", 
+            filename: "",
+          },
+        })
+    }else{
+      alert('Đã có lỗi xảy ra, hãy kiểm tra kết nối với API')
+    }
   }
 
   render() {
+    const {title, content, email, receiver, filename} = this.state.form
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
-          <div className='mb-4 '>
+        <form className='form-signin' onSubmit={this.handleSubmit}>
+          <div className="form-label-group">
             <label for="title">Tiêu đề e-mail: </label>
-            <input type='text' id='title' name='title' placeholder='Type something...' onChange={this.handleChange} required></input>
+            <input type='text' id='title' name='title' placeholder='Type something...' value={title} onChange={this.handleChange} required></input>
           </div>
-          <div className='mb-4'>
+          <div className="form-label-group">
             <label for="content">Nội dung e-mail: </label>
-            <textarea id='content' name='content' placeholder='Type something...' onChange={this.handleChange} required></textarea>
+            <textarea id='content' name='content' placeholder='Type something...' value={content} onChange={this.handleChange} required></textarea>
           </div>
-          <div className='mb-4'>
+          <div className="form-label-group">
             <label for="email">Gửi tới địa chỉ: </label>
-            <input type='email' id='email' name='email' placeholder='Type something...' onChange={this.handleChange} required></input>
+            <input type='email' id='email' name='email' placeholder='Type something...' value={email} onChange={this.handleChange} required></input>
           </div>
-          <div className='mb-4'>
+          <div className="form-label-group">
             <label for="receiver">Người nhận: </label>
-            <input type='text' id='receiver' name='receiver' placeholder='A name' onChange={this.handleChange} required></input>
+            <input type='text' id='receiver' name='receiver' placeholder='A name' value={receiver} onChange={this.handleChange} required></input>
           </div>
-          <div className='mb-4'>
+          <div className="form-label-group">
             <label for="filename">Test tên file</label>
-            <input type='text' id='filename' name='filename' className='btn btn-outline-secondary' onChange={this.handleChange}></input>
+            <input type='text' id='filename' name='filename' className='btn btn-outline-secondary' value={filename} onChange={this.handleChange}></input>
           </div>
-         <button type='submit' className='btn btn-primary'>Gửi đi</button>
+          <button type='submit' className='btn btn-primary'>Gửi đi</button>
         </form>
       </>
     )
