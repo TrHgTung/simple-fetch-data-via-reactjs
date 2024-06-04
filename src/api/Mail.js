@@ -3,6 +3,7 @@ import config from "../config/config.json"
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './Mail.css';
 import MailContent from '../mailContent/MailContent';
+import AddData from '../addData/AddData';
 
 const {SERVER_API} = config
 const {API_ENDPOINT} = config
@@ -58,11 +59,7 @@ export class Mail extends Component {
         const {mail, mailId, showAll} = this.state
 
         return (
-            <div>
-                {/* <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{{URL::to('/admin/dashboard')}}"> */}
+            <>
                 <div className='mt-4 mb-4 text-center font-weight-bold'>
                     <h4 className='font-weight-bold'>Lịch sử e-mail</h4>
                 </div>
@@ -123,8 +120,13 @@ export class Mail extends Component {
                                 )
                             }
                                                
-                    
-             </div>
+                    <div className='text-center mt-4 mb-4'>
+                        <div className='mt-2 mb-4'>
+                            <h4><strong>Gửi e-mail nhanh</strong></h4>
+                        </div>
+                        <AddData />
+                    </div>
+             </>
         );
     }
 }
